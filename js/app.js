@@ -27,6 +27,24 @@ function buyCourse(e){
 function getCourseInfo(course){
   // CREATE AN OBJECT WITH COURSE DATA
   const courseInfo = {
-    
+    image: couse.querySelector("img").src,
+    title: couse.querySelector("h4").textContent,
+    price: couse.querySelector(".price span").textContent,
+    id: couse.querySelector("a").getAttribute("data-id")
+
   }
+  // INSERT INTO THE SHOPPING CART
+  addInfoCart(courseInfo);
+}
+// DISPLAY THE SELECTED COURSE INTO THE SHOPPING CART
+
+function addInfoCart(course) {
+  // CREATE A <tr>
+  const row = document.createElement("tr");
+
+  // BUILD THE TEMPLATE
+    row.innerHTML = `
+    
+    `;
+
 }
