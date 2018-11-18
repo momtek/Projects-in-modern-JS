@@ -1,12 +1,20 @@
 // VARIABLES
 const courses = document.querySelector("#courses-list"),
-      shoppingCartContent = document.querySelector("#cart-content tbody")
+      shoppingCartContent = document.querySelector("#cart-content tbody"),
+      clearCartBtn = document.querySelector("#clear-cart");
 
 // LISTENERS
 loadEventListeners();
+
 function loadEventListeners(){
   //WHEN A NEW COURSE IS ADDED
   courses.addEventListener("click", buyCourse);
+
+  // WHEN THE REMOVE BUTTON IS CLICKED
+  shoppingCartContent.addEventListener("click", removeCourse);
+
+  // CLEAR CART Btn
+  clearCartBtn.addEventListener("click", clearCart);
 }
 
 
@@ -15,7 +23,7 @@ function loadEventListeners(){
 function buyCourse(e){
   e.preventDefault();
   // USE DELEGATION TO FIND THE COURSE THAT WAS ADDED
-  if(e.target.classList.contains("add-tocart")){
+  if(e.target.classList.contains("add-to-cart")){
     //READ THE COURSE VALUES
     const course = e.target.parentElement.parentElement;
 
@@ -28,10 +36,10 @@ function buyCourse(e){
 function getCourseInfo(course){
   // CREATE AN OBJECT WITH COURSE DATA
   const courseInfo = {
-    image: couse.querySelector("img").src,
-    title: couse.querySelector("h4").textContent,
-    price: couse.querySelector(".price span").textContent,
-    id: couse.querySelector("a").getAttribute("data-id")
+    image: course.querySelector("img").src,
+    title: course.querySelector("h4").textContent,
+    price: course.querySelector(".price span").textContent,
+    id: course.querySelector("a").getAttribute("data-id")
 
   }
   // INSERT INTO THE SHOPPING CART
@@ -60,4 +68,18 @@ function addInfoCart(course) {
     // ADD INTO THE SHOPPING CART
     shoppingCartContent.appendChild(row);
 
+}
+
+// REMOVE COURSE FROM THE DOM
+function removeCourse(e){
+  if(e.target.classList.contains("remove")) {
+    e.target.parentElement.parentElement.remove();
+  }
+}
+// CLEAR THE SHOPPING CART
+function clearCart() {
+  // shoppingCartContent.innerHTML = "";
+  while(shoppingCartContent.firstChild){
+    shoppingCartContent.removeChild(shoppingCartContent.firstChild);
+  }
 }
