@@ -46,11 +46,11 @@ function getCourseInfo(course){
 
   }
   // INSERT INTO THE SHOPPING CART
-  addInfoCart(courseInfo);
+  addIntoCart(courseInfo);
 }
 // DISPLAY THE SELECTED COURSE INTO THE SHOPPING CART
 
-function addInfoCart(course) {
+function addIntoCart(course) {
   // CREATE A <tr>
   const row = document.createElement("tr");
 
@@ -104,12 +104,38 @@ function getCoursesFromStorage(){
 }
 
 // REMOVE COURSE FROM THE DOM
+
 function removeCourse(e){
+  let course, courseId;
+
+  // REMOVE FROM THE DOM
   if(e.target.classList.contains("remove")) {
     e.target.parentElement.parentElement.remove();
+    course = e.target.parentElement.parentElement;
+    courseId = course.querySelector("a").getAttribute("data-id");
   }
+  console.log(courseId);
+
+  // REMOVE FROM THE LOCAL STORAGE
+  removeCourseLocalStorage(courseId);
 }
-// CLEAR THE SHOPPING CART
+// REMOVE FROM LOCAL STORAGE
+function removeCourseLocalStorage(id) {
+  // GET THE LOCAL STORAGE DATA
+  let coursesLS = getCoursesFromStorage();
+
+  //LOOP THROUGHT THE ARRAY AND FIND THE INDEX TO REMOVE
+  coursesLS.forEach(function(courseLS, index) {
+    if(courseLS.id === id) {
+      coursesLS.splice(index, 1);
+    }
+  });
+
+  // ADD THE REST OF THE ARRAY
+  localStorage.setItem("courses", JSON.stringify(coursesLS));
+}
+
+// CLEARS THE SHOPPING CART
 function clearCart() {
   // shoppingCartContent.innerHTML = "";
   while(shoppingCartContent.firstChild){
@@ -131,7 +157,7 @@ function getFromLocalStorage(){
   let coursesLS = getCoursesFromStorage();
 
   // LOOP THROUGHT THE COURSES AND PRINT INTO THE CART
-  coursesLS.forEach(function(courses){
+  coursesLS.forEach(function(course){
     // CREATE THE <tr>
     const row = document.createElement("tr");
 
